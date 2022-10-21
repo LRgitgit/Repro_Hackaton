@@ -1,0 +1,12 @@
+#Creation d'un dir et permissions 
+mkdir Outputs_Star
+
+
+#Indexage
+STAR --runThreadN 4 --runMode generateGenome --genomeDir /path/to/genome --genomeFastaFiles /path/to/fasta1 /path/to/fasta2 --sjdbGTFfile /path/to/annot.gtf --sjdbOverhang max(ReadsLength)-1 ou 100
+
+#Mapping
+STAR --runThreadN 4 --genomeDir /path/to/GenomeAndIndexesDIR --readFilesIn /path/to/read1 path/to/read2 --readFilesCommand gunzip/zcat #...pour unziper
+
+#Combien de reads/gene ? 
+featureCounts -p -O -T 4 -a /path/to/annot.gtf -o /path/to/outputfile /path/to/sorted_mapped_alignement.bam
