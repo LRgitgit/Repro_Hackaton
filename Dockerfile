@@ -20,12 +20,15 @@ RUN apt-get update --fix-missing \
 && tar -vxzf sratoolkit.tar.gz \
 && rm -rf sratoolkit.tar.gz \
 && export PATH=$PATH:$PWD/sratoolkit.3.0.0-ubuntu64/bin \
-&& vdb-config \ 
+# && vdb-config -interactive \
+ 
 
 # install featureCounts
 # && sudo apt-get subread \ erreur sudo: not found et ne marche pas sans sudo
 
 # install STAR
+#TODO : apt get install libgomp
+
 && cd /usr/local \
 && wget  https://github.com/alexdobin/STAR/archive/2.7.10a.tar.gz \
 && tar -xzf 2.7.10a.tar.gz \
@@ -35,6 +38,7 @@ RUN apt-get update --fix-missing \
 && cp STAR /usr/local \
 && rm -rf /usr/local/STAR-2.7.10a \
 
+# installer fastqc
 
 # clean install
 && apt-get remove -y wget gcc make libbz2-dev zlib1g-dev liblzma-dev libncurses-dev bzip2 \
