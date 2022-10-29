@@ -9,12 +9,12 @@ RUN apt-get update --fix-missing \
 && rm -rf 2.7.10a.tar.gz \
 && cd STAR-2.7.10a/source \
 && make STAR \
-&& cp STAR /usr/local/ \
+&& mv ./STAR /usr/local/bin/ \
 && cd /usr/local/ \ 
 && rm -rf /usr/local/STAR-2.7.10a \
 
-&& apt-get autoremove \
+&& apt-get autoremove -y \
 && apt-get clean \
 && rm -rf /var/lib/apt/lists/* \
-ENTRYPOINT ["/usr/local/STAR"]
+ENTRYPOINT ["/usr/local/bin/STAR"]
 

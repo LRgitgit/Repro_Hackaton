@@ -1,15 +1,15 @@
 #base image: Ubuntu
 FROM ubuntu:22.04
+ENV PATH=$PATH:/usr/local/subread/bin/
 RUN apt-get update --fix-missing \
 && apt-get install -y tar wget make \
 
 && wget -O subread.tar.gz https://downloads.sourceforge.net/project/subread/subread-2.0.0/subread-2.0.0-Linux-x86_64.tar.gz \
 && tar -xzvf subread.tar.gz -C /usr/local \
 && rm -rf subread.tar.gz \
-&& mv /usr/local/subread-2.0.0-Linux-x86_64 /usr/local/subread-2.0.0 \
+&& mv /usr/local/subread-2.0.0-Linux-x86_64 /usr/local/subread \
 
 && apt-get autoremove -y \
 && apt-get clean \
 
-ENTRYPOINT ["/usr/local/bin/subread"]
-
+ENTRYPOINT ["/usr/local/subread/bin"]
