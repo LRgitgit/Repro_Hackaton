@@ -1,0 +1,10 @@
+gtf=["../ADNseq/Homo_sapiens.GRCh38.108.gtf"]
+
+rule star_index:
+	input:
+		fasta="../ADNseq/new/1.fa",
+	output:
+		directory("../genome"),
+	threads: 4	
+	shell:
+		"STAR --runThreadN {threads} --runMode genomeGenerate --genomeDir {output} --genomeFastaFiles {input} --sjdbGTFfile {gtf} --sjdbOverhang 100 --genomeSAsparseD 3 --genomeSAindexNbases 12"
