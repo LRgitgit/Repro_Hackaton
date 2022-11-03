@@ -1,0 +1,12 @@
+gtf=["../genomes/Homo_sapiens.GRCh38.108.gtf"]
+
+rule star_index:
+	input:
+		fasta="../genomes/subsets/1.fa",
+	output:
+		directory("../indexed_genomes"),
+	threads: 4
+	container:
+		"docker://star:v2.7.10a"	
+	shell:
+		"STAR --runThreadN {threads} --runMode genomeGenerate --genomeDir {output} --genomeFastaFiles {input} --sjdbGTFfile {gtf} --sjdbOverhang 100 --genomeSAsparseD 3 --genomeSAindexNbases 12"
