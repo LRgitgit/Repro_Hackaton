@@ -1,9 +1,44 @@
 #fichier .fasta
-wget https://ftp.ensembl.org/pub/release-108/fasta/homo_sapiens/dna/Homo_sapiens.GRCh38.dna_sm.primary_assembly.fa.gz
-gunzip Homo_sapiens.GRCh38.dna_sm.primary_assembly.fa.gz
+#wget https://ftp.ensembl.org/pub/release-108/fasta/homo_sapiens/dna/Homo_sapiens.GRCh38.dna_sm.primary_assembly.fa.gz
+#gunzip Homo_sapiens.GRCh38.dna_sm.primary_assembly.fa.gz
  
 #fichier .gtf
-wget https://ftp.ensembl.org/pub/release-108/gtf/homo_sapiens/Homo_sapiens.GRCh38.108.gtf.gz
-gunzip Homo_sapiens.GRCh38.108.gtf.gz
+#wget https://ftp.ensembl.org/pub/release-108/gtf/homo_sapiens/Homo_sapiens.GRCh38.108.gtf.gz
+#gunzip Homo_sapiens.GRCh38.108.gtf.gz
 
 #fichiers à décompresser
+#fichier .fasta
+wget https://ftp.ensembl.org/pub/grch37/current/fasta/homo_sapiens/dna/Homo_sapiens.GRCh37.dna_sm.primary_assembly.fa.gz
+gunzip Homo_sapiens.GRCh37.dna_sm.primary_assembly.fa.gz
+
+#fichier .gtf
+wget https://ftp.ensembl.org/pub/grch37/current/gtf/homo_sapiens/Homo_sapiens.GRCh37.87.gtf.gz
+gunzip Homo_sapiens.GRCh37.87.gtf.gz
+
+mkdir OutputsIndexage
+
+STAR --runThreadN 64 --runMode genomeGenerate --genomeDir ./OutputsIndexage2 --genomeFastaFiles ./Homo_sapiens.GRCh37.dna_sm.primary_assembly.fa --sjdbGTFfile ./Homo_sapiens.GRCh37.87.gtf --sjdbOverhang  100 --genomeSAindexNbases 12 --genomeSAsparseD 2
+ 
+#Mettre sra-toolkit dans le path
+export PATH=$PATH:/usr/local/sratoolkit.3.0.0-ubuntu64/bin
+mkdir Reads2
+cd Reads2
+prefetch --option-file ../SraAccList.txt
+
+#Dans les dossiers créés par le prefetch crée les .fastq à partir des .sra
+for dir in ./SRR*
+do
+        cd ./$dir
+        echo $dir
+        echo SRR*
+        fasterq-dump SRR* --split-spot --skip-technical
+        cd ..
+done
+
+for dir in ./SRR*
+do
+        cd ./$dir
+        STAR --runThreadN 64 --genomeDir ../../ADNseq/OutputsIndexage2 --readFilesIn ./*.fastq --outSAMtype SAM
+        cd ..
+done
+
