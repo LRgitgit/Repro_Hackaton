@@ -1,10 +1,15 @@
 rule getGenome:
 	output:
-		directory("../genomes/"),
+		directory("genomes/"),
 	shell:
-		"""mkdir -p {output}
+		"""
+		mkdir -p {output}
 		cd {output}
-		wget 'https://ftp.ensembl.org/pub/release-108/fasta/homo_sapiens/dna/Homo_sapiens.GRCh38.dna_sm.primary_assembly.fa.gz'
-		gunzip 'Homo_sapiens.GRCh38.dna_sm.primary_assembly.fa.gz'
-		wget 'https://ftp.ensembl.org/pub/release-108/gtf/homo_sapiens/Homo_sapiens.GRCh38.108.gtf.gz'
-		gunzip 'Homo_sapiens.GRCh38.108.gtf.gz'"""
+		
+		wget https://ftp.ensembl.org/pub/grch37/current/fasta/homo_sapiens/dna/Homo_sapiens.GRCh37.dna_sm.primary_assembly.fa.gz
+		gunzip Homo_sapiens.GRCh37.dna_sm.primary_assembly.fa.gz
+
+		#fichier .gtf
+		wget https://ftp.ensembl.org/pub/grch37/current/gtf/homo_sapiens/Homo_sapiens.GRCh37.87.gtf.gz
+		gunzip Homo_sapiens.GRCh37.87.gtf.gz
+		"""

@@ -1,0 +1,29 @@
+SRR=["SRR628582", "SRR628583", "SRR628584", "SRR628585", "SRR628586", "SRR628587", "SRR628588"]
+singularity: "docker://jmarcais/sratoolkit:v3.0.1"
+
+rule all:
+	input:
+		expand("samples/{sample}/{sample}.fastq", sample=SRR)
+
+rule prefetch:
+	output:
+		"samples/{sample}/{sample}.sra"
+	shell:
+		"""
+		mkdir -p samples
+		export PATH=$PATH:/usr/local/sratoolkit.3.0.1-ubuntu64/bin
+		vdb-config --restore-defaults
+		prefetch {wildcards.sample} > {output}
+		"""
+
+rule fasterqdump:
+	input:
+		"samples/{sample}/{sample}.sra"
+	output:
+		"samples/{sample}/{sample}.fastq"
+	shell:
+		"""
+		export PATH=$PATH:/usr/local/sratoolkit.3.0.1-ubuntu64/bin
+		vdb-config --restore-defaults
+		fasterq-dump {input} --split-spot --skip-technical
+		"""

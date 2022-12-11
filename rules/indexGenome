@@ -1,12 +1,16 @@
-gtf=["../genomes/Homo_sapiens.GRCh38.108.gtf"]
+gtf=["genomes/Homo_sapiens.GRCh37.87.gtf"]
+
+singularity:"docker://jmarcais/star:v2.7.10a"
+
 
 rule star_index:
 	input:
-		fasta="../genomes/subsets/1.fa",
+		"genomes/Homo_sapiens.GRCh37.dna_sm.primary_assembly.fa"
 	output:
-		directory("../indexed_genomes"),
-	threads: 4
-	container:
-		"docker://star:v2.7.10a"	
+		directory("OutputsIndexage"),
+	threads: 16	
 	shell:
-		"STAR --runThreadN {threads} --runMode genomeGenerate --genomeDir {output} --genomeFastaFiles {input} --sjdbGTFfile {gtf} --sjdbOverhang 100 --genomeSAsparseD 3 --genomeSAindexNbases 12"
+		"""
+		mkdir {output} 
+		STAR --runThreadN {threads} --runMode genomeGenerate --genomeDir {output} --genomeFastaFiles {input} --sjdbGTFfile {gtf} --sjdbOverhang 100 --genomeSAindexNbases 12 --genomeSAsparseD 2
+		"""

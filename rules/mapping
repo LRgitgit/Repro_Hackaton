@@ -1,0 +1,26 @@
+singularity: "docker://jmarcais/star:v2.7.10a"
+SRR=["SRR628582", "SRR628583", "SRR628584", "SRR628585", "SRR628586", "SRR628587", "SRR628588"]       
+
+rule all:
+	input:
+		expand("samples/{sample}/Aligned.out.sam", sample=SRR)
+		
+ 
+rule mapping:
+	input:
+                expand("samples/{sample}/{sample}.fastq", sample=SRR)
+	output:
+		"samples/{sample}/Log.final.out",
+                "samples/{sample}/Log.progress.out",
+                "samples/{sample}/Log.out",
+                "samples/{sample}/SJ.out.tab",
+                "samples/{sample}/Aligned.out.sam"
+
+	
+	threads: 16
+	shell:
+		"""
+		STAR --runThreadN {threads} --genomeDir OutputsIndexage --readFilesIn samples/{wildcards.sample}/{wildcards.sample}.fastq --outSAMtype SAM --outFileNamePrefix samples/{wildcards.sample}/
+		"""
+
+
