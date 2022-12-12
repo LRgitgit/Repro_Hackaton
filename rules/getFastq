@@ -13,7 +13,8 @@ rule prefetch:
 		mkdir -p samples
 		export PATH=$PATH:/usr/local/sratoolkit.3.0.1-ubuntu64/bin
 		vdb-config --restore-defaults
-		prefetch {wildcards.sample} > {output}
+		prefetch {wildcards.sample}
+		mv {wildcards.sample}/{wildcards.sample}.sra {output}
 		"""
 
 rule fasterqdump:
@@ -26,4 +27,5 @@ rule fasterqdump:
 		export PATH=$PATH:/usr/local/sratoolkit.3.0.1-ubuntu64/bin
 		vdb-config --restore-defaults
 		fasterq-dump {input} --split-spot --skip-technical
+		mv {wildcards.sample}.fastq {output}
 		"""
