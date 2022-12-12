@@ -13,3 +13,6 @@ Nous présenterons les résultats que nous avons obtenus et les interprétations
 ## Conclusion
 
 Nous conclurons sur la reproductibilité des résultats des deux articles scientifiques.
+
+## Pour lancer le Workflow
+./run.sh
