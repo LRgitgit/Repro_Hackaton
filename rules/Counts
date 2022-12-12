@@ -1,0 +1,21 @@
+SRR=["SRR628582", "SRR628583", "SRR628584", "SRR628585", "SRR628586", "SRR628587", "SRR628588"]
+gtf="genomes/Homo_sapiens.GRCh37.87.gtf"
+singularity: "docker://jmarcais/subread:v2.0"
+
+
+rule all:
+	input:
+		"Counts/count_matrix.txt"
+
+rule count:
+	input:
+		expand("samples/{sample}/Aligned.out.sam", sample=SRR)
+	output:
+		"Counts/count_matrix.txt",
+		"Counts/count_matrix.txt.summary"
+	threads: 16
+	shell:
+		"""
+		mkdir -p Counts
+		featureCounts -O -T {threads} -a genomes/Homo_sapiens.GRCh37.87.gtf -o Counts/count_matrix.txt {input}
+		"""

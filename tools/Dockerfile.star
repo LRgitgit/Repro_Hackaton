@@ -1,10 +1,3 @@
-# base image: Ubuntu
-FROM continuumio/miniconda3
-
-COPY environment.yml . 
-RUN conda env create -f environment.yml
-SHELL ["conda", "run", "-n", "myenv", "/bin/bash", "-c"]
-
 FROM ubuntu:22.04
 
 RUN apt-get update --fix-missing \
@@ -23,5 +16,5 @@ RUN apt-get update --fix-missing \
 && apt-get autoremove -y \
 && apt-get clean \
 && rm -rf /var/lib/apt/lists/* \
-ENTRYPOINT ["conda", "python", "usr/local/bin/STAR"]
+ENTRYPOINT ["usr/local/bin/STAR"]
 

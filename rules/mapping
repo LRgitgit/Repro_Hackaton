@@ -1,5 +1,6 @@
 singularity: "docker://jmarcais/star:v2.7.10a"
-SRR=["SRR628582", "SRR628583", "SRR628584", "SRR628585", "SRR628586", "SRR628587", "SRR628588"]       
+SRR=["SRR628582", "SRR628583", "SRR628584", "SRR628585", "SRR628586", "SRR628587", "SRR628588", "SRR628589"]       
+
 
 rule all:
 	input:
@@ -7,8 +8,6 @@ rule all:
 		
  
 rule mapping:
-	input:
-                expand("samples/{sample}/{sample}.fastq", sample=SRR)
 	output:
 		"samples/{sample}/Log.final.out",
                 "samples/{sample}/Log.progress.out",

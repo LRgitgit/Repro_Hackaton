@@ -1,0 +1,13 @@
+singularity: "docker://jmarcais/r-deseq2:4.2"
+
+rule analyse_R:
+	input:
+		script="R_files/analyse_deseq.R",
+		data="Counts/count_matrix.txt"
+	output:
+		data="R_files/dds_printable.Rdata"
+	threads: 16
+	shell:
+		"""
+		Rscript {input.script} --data {input.data} --out {output.data}	
+		"""
