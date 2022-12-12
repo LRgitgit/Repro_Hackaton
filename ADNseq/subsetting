@@ -1,8 +1,0 @@
-mkdir subsets
-csplit -s -z ./Homo_sapiens.GRCh38.dna_sm.primary_assembly.fa '/>/' '{*}'
-mv xx* ./subsets
-cd subsets
-for i in xx* ; do \
-  n=$(sed 's/>// ; s/ .*// ; 1q' "$i") ; \
-  mv "$i" "$n.fa" ; \
- done
